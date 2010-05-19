@@ -1,10 +1,9 @@
-
 = Motivation
 
 Having many protected attributes, many of params has to be manually assigned in controller
 
 
-def update
+ def update
     @user = User.find_by_id(params[:id])
 
     @user.is_admin = params[:user][:is_admin]
@@ -13,7 +12,7 @@ def update
     @user.redmine_user_id = params[:user][:redmine_user_id]
 
     update!
-end
+ end
 
 
 = Solution
@@ -22,14 +21,11 @@ Small module that has to be included into controller. This module provides handy
 
 = Result
 
-class UserController < ApplicationController
-
-include Selleo::ProtectedRewriter
-
-def update
-    @user = User.find_by_id(params[:id])
-    rewrite_params(@user, :is_admin, :hidden, :active, :redmine_user_id)
-    update!
-end
-
-end
+ class UserController < ApplicationController
+ include Selleo::ProtectedRewriter
+ def update
+     @user = User.find_by_id(params[:id])
+     rewrite_params(@user, :is_admin, :hidden, :active, :redmine_user_id)
+     update!
+ end
+ end
